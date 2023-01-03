@@ -48,17 +48,7 @@ const Navbar = () => {
           ))}
           <li onClick={navMenuToggle}>
             <NavLink to="/auth/ingresar">
-              <button className="uk-button uk-button-text">
-                Ingresar
-                <span uk-icon="sign-in" />
-              </button>
-            </NavLink>
-          </li>
-          <li onClick={navMenuToggle}>
-            <NavLink to="/auth/registro">
-              <button className="uk-button uk-button-primary">
-                Regístrate
-              </button>
+              <button className="uk-button uk-button-primary">Entrar</button>
             </NavLink>
           </li>
         </Menu>
@@ -198,7 +188,7 @@ const Hamburger = styled.div`
 `;
 
 const Menu = styled.ul`
-  @media (max-width: 768px) {
+  @media (max-width: 767px) {
     flex-direction: column;
     width: 100%;
     height: 100%;
@@ -206,7 +196,7 @@ const Menu = styled.ul`
       box-shadow: 0px 24px 3px -24px #2e1359;
     }
   }
-  @media (min-width: 769px) {
+  @media (min-width: 768px) {
     display: flex;
     justify-content: flex-end;
   }

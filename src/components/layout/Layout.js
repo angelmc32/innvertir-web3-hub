@@ -5,7 +5,7 @@ const Layout = ({ children }) => {
   return (
     <Fragment>
       <Navbar />
-      <main className="uk-container">{children}</main>
+      <main>{children}</main>
     </Fragment>
   );
 };

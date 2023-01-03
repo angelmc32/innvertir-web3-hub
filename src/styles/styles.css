@@ -39,6 +39,17 @@ select.uk-select {
   text-transform: none;
 }
 
+button.uk-button.uk-button-white {
+  background-color: #f8f8f8;
+  border-color: #f8f8f8;
+  color: #1f0045;
+}
+
+button.uk-button.uk-button-white:hover {
+  background-color: #dccdf4;
+  border-color: #dccdf4;
+}
+
 button.uk-button.uk-button-primary {
   background-color: #ff4a4a;
   border-color: #ff4a4a;
