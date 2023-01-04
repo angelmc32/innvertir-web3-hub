@@ -42,7 +42,7 @@ const Auth = () => {
     if (!sdkRef?.current?.provider) return;
     setIsLoading(true);
     sdkRef.current.hideWallet();
-    const web3Provider = new ethers.providers.web3Provider(
+    const web3Provider = new ethers.providers.Web3Provider(
       sdkRef.current.provider
     );
     try {
