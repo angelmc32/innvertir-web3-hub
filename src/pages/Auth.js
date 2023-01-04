@@ -33,8 +33,20 @@ const Auth = () => {
       // console.log("A) No está vivo el sdkRef");
       // console.log("sdkRef: ", sdkRef);
       const socialLoginSDK = new SocialLogin();
-      // const signature1 = await socialLoginSDK.whitelistUrl('http://localhost:3000/auth');
-      await socialLoginSDK.init();
+      const signature1 = await socialLoginSDK.whitelistUrl(
+        "https://feature-biconomy-login-wallet--musical-meringue-5a5af7.netlify.app/auth"
+      );
+      const signature2 = await socialLoginSDK.whitelistUrl(
+        "https://feature-biconomy-login-wallet--musical-meringue-5a5af7.netlify.app"
+      );
+      await socialLoginSDK.init({
+        whitelistUrls: {
+          "https://feature-biconomy-login-wallet--musical-meringue-5a5af7.netlify.app/auth":
+            signature1,
+          "https://feature-biconomy-login-wallet--musical-meringue-5a5af7.netlify.app":
+            signature2,
+        },
+      });
       sdkRef.current = socialLoginSDK;
       console.log(sdkRef);
     }
