@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@biconomy/core-types": "^1.0.0",
+    "@biconomy/node-client": "^1.0.0",
     "@biconomy/smart-account": "^1.0.0",
     "@biconomy/web3-auth": "^1.0.0",
     "@reduxjs/toolkit": "^1.8.5",

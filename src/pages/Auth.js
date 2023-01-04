@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import SocialLogin from "@biconomy/web3-auth";
 import { ChainId } from "@biconomy/core-types";
 import SmartAccount from "@biconomy/smart-account";
+import { BalancesDto } from "@biconomy/node-client";
 import { ethers } from "ethers";
 import styled from "styled-components";
 
@@ -10,6 +11,8 @@ const Auth = () => {
   const [interval, enableInterval] = useState(null);
   const sdkRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [balances, setBalances] = useState([]);
+  const [usdBalance, setUsdBalance] = useState(null);
 
   useEffect(() => {
     let configureLogin;
@@ -23,7 +26,7 @@ const Auth = () => {
         }
       }, 1000);
     }
-  }, [interval]);
+  }, [interval, usdBalance]);
 
   const login = async () => {
     if (!sdkRef.current) {
@@ -76,12 +79,36 @@ const Auth = () => {
     sdkRef.current.hideWallet();
     setSmartAccount(null);
     enableInterval(false);
+    setBalances(null);
+  };
+
+  const getBalances = async () => {
+    const balanceParams = {
+      chainId: ChainId.POLYGON_MAINNET, // chainId of your choice
+      eoaAddress: smartAccount.address,
+      tokenAddresses: [],
+    };
+    try {
+      const balFromSdk = await smartAccount.getAlltokenBalances(balanceParams);
+      console.log(balFromSdk);
+      setBalances(balFromSdk.data);
+
+      const usdBalFromSdk = await smartAccount.getTotalBalanceInUsd(
+        balanceParams
+      );
+      setUsdBalance(usdBalFromSdk.data.totalBalance);
+      console.log(usdBalFromSdk.data.totalBalance);
+    } catch (err) {
+      console.error(err);
+    }
+    //data[0].contract_ticker_symbol
   };
 
   return (
-    <div className="page-container uk-container">
-      <h2>Auth</h2>
-      <div className="uk-container">
+    <div className="page-container uk-container uk-width-1-1">
+      <h2>{!smartAccount ? "Iniciar Sesión" : "Mi Wallet"}</h2>
+      <h4>{usdBalance}</h4>
+      <div className="uk-container uk-width-2-5 uk-flex uk-flex-center">
         {!smartAccount && !isLoading && (
           <button className="uk-button uk-button-primary" onClick={login}>
             Iniciar Sesión
@@ -93,12 +120,28 @@ const Auth = () => {
           </p>
         )}
         {!!smartAccount && (
-          <div className="uk-container">
-            <h3>Smart account address:</h3>
-            <p>{smartAccount.address}</p>
-            <button className="uk-button uk-button-secondary" onClick={logout}>
-              Logout
-            </button>
+          <div className="uk-container uk-width-4-5 uk-flex uk-flex-column uk-flex-center">
+            <div className="uk-container uk-margin">
+              <a
+                href={`https://polygonscan.com/address/${smartAccount.address}`}
+              >
+                Ver en Explorador de Bloques
+              </a>
+            </div>
+            <div className="uk-width-1-1 uk-flex uk-flex-around">
+              <button
+                className="uk-button uk-button-primary"
+                onClick={getBalances}
+              >
+                Get Balances
+              </button>
+              <button
+                className="uk-button uk-button-secondary"
+                onClick={logout}
+              >
+                Logout
+              </button>
+            </div>
           </div>
         )}
       </div>
