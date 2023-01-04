@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import App from "./App";
 import store from "./store";
 
+import "@biconomy/web3-auth/dist/src/style.css";
 import UIkit from "uikit";
 import Icons from "uikit/dist/js/uikit-icons";
 import "uikit/dist/css/uikit.min.css";

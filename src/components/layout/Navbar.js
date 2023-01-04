@@ -47,7 +47,7 @@ const Navbar = () => {
             </li>
           ))}
           <li onClick={navMenuToggle}>
-            <NavLink to="/auth/ingresar">
+            <NavLink to="/auth">
               <button className="uk-button uk-button-primary">Entrar</button>
             </NavLink>
           </li>
