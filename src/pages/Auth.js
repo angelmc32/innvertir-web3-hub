@@ -14,8 +14,10 @@ const Auth = () => {
   useEffect(() => {
     let configureLogin;
     if (interval) {
+      console.log("F) Ya no sé qué pedo");
       configureLogin = setInterval(() => {
         if (!!sdkRef.current?.provider) {
+          console.log("Z) ah chinga");
           setupSmartAccount();
           clearInterval(configureLogin);
         }
@@ -25,15 +27,22 @@ const Auth = () => {
 
   const login = async () => {
     if (!sdkRef.current) {
+      // console.log("A) No está vivo el sdkRef");
+      // console.log("sdkRef: ", sdkRef);
       const socialLoginSDK = new SocialLogin();
-      await socialLoginSDK.init(ethers.utils.hexValue(ChainId.POLYGON_MAINNET));
+      // const signature1 = await socialLoginSDK.whitelistUrl('http://localhost:3000/auth');
+      await socialLoginSDK.init();
       sdkRef.current = socialLoginSDK;
+      console.log(sdkRef);
     }
     if (!sdkRef.current.provider) {
-      sdkRef.current.showContentModal();
+      // console.log("B) No hay provider en el sdkRef");
+      // console.log("sdkRef: ", sdkRef);
+      // console.log("sdkRef.current: ", sdkRef.current);
       sdkRef.current.showWallet();
       enableInterval(true);
     } else {
+      // console.log("C) Vamos a ejecutar setupSmartAccount ->");
       setupSmartAccount();
     }
   };
@@ -74,14 +83,23 @@ const Auth = () => {
       <h2>Auth</h2>
       <div className="uk-container">
         {!smartAccount && !isLoading && (
-          <button className="uk-button uk-button-primary">
+          <button className="uk-button uk-button-primary" onClick={login}>
             Iniciar Sesión
           </button>
         )}
         {isLoading && (
           <p>
-            Cargando información... <div className="uk-spinner"></div>
+            Cargando información... <span className="uk-spinner" />
           </p>
+        )}
+        {!!smartAccount && (
+          <div className="uk-container">
+            <h3>Smart account address:</h3>
+            <p>{smartAccount.address}</p>
+            <button className="uk-button uk-button-secondary" onClick={logout}>
+              Logout
+            </button>
+          </div>
         )}
       </div>
     </div>
